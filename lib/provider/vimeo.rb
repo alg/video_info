@@ -5,7 +5,7 @@ class Vimeo
   attr_accessor :video_id, :url, :provider, :title, :description, :keywords,
                 :duration, :date, :width, :height,
                 :thumbnail_small, :thumbnail_large,
-                :view_count
+                :view_count, :author
   
   def initialize(url)
     @video_id = url.gsub(/.*\.com\/([0-9]+).*$/i, '\1')

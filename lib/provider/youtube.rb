@@ -5,7 +5,7 @@ class Youtube
   attr_accessor :video_id, :url, :provider, :title, :description, :keywords,
                 :duration, :date, :width, :height,
                 :thumbnail_small, :thumbnail_large,
-                :view_count
+                :view_count, :author
 
   def initialize(url)
     @video_id = url.gsub(/.*v=([^&]+).*$/i, '\1')
@@ -25,6 +25,7 @@ private
     @date             = Time.parse(doc.search("published").inner_text, Time.now.utc)
     @thumbnail_small  = doc.search("media:thumbnail").min { |a,b| a[:height].to_i * a[:width].to_i <=> b[:height].to_i * b[:width].to_i }[:url]
     @thumbnail_large  = doc.search("media:thumbnail").max { |a,b| a[:height].to_i * a[:width].to_i <=> b[:height].to_i * b[:width].to_i }[:url]
+    @author           = doc.search("author name").inner_text
     # when your video still has no view, yt:statistics is not returned by Youtube
     # see: https://github.com/thibaudgg/video_info/issues#issue/2
     if doc.search("yt:statistics").first
